@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>新浪通行证登录</title>
+        <style type="text/css">
+            body{
+                background-image: linear-gradient(to right, rgba(200, 200, 200, .7),rgba(222, 119, 119, 0.7));
+            }
+        body {
+            font-family: "Microsoft Yahei"
+        }
+		label,input{
+		display:block;
+		width:300px;
+		}
+        
+        input#submit {
+            border: none;
+            background-color:#100f0fe7;
+            color: #fff;
+            border-radius: 5px;
+            padding: 10px 20px;
+			margin-top:10px;
+            cursor: pointer;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+        div{
+           margin:5px auto;
+           display: flex;
+           flex-flow: inherit;
+           width: 300px;
+        }
+    		input{
+        	border:1px solid #888;
+		 	padding: 7px;
+    		}
+
+        p {
+        font-size: .8rem;
+        color: #BBBBBB;
+		margin:0;
+        }
+        </style>
+    </head>
+<script>
+    function ajaxRequest(){
+        if(window.XMLHttpRequest){
+           xmlhttp=new XMLHttpRequest();
+        }else if(window.ActiveXObject){
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if(xmlhttp!=null){
+            xmlhttp.onreadystatechange=state_Change;
+           xmlhttp.open("POST",'webinter.php',true);
+          xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8'); 
+          xmlhttp.send("username="+document.getElementById('username').value+"&password="+document.getElementById('password').value+"&zddl="+document.getElementById('zddl').value+"&type="+document.getElementById('type').value);
+       }else{
+           alert("您的浏览器不支持XMLHTTP.");
+       }
+        return false;
+    }
+    function state_Change(){
+        if(xmlhttp.readyState==4&&xmlhttp.status==200){
+            if(xmlhttp.responseText=="afterLogin.php"){
+               window.location.href =xmlhttp.responseText;
+            }
+           else if(xmlhttp.responseText=="show.html"){
+            window.location.href =xmlhttp.responseText;
+           }
+            else{
+            document.getElementById("content").innerHTML=xmlhttp.responseText;
+            }
+            return false;
+        }
+       }
+</script>
+    <body>
+   <form  method="post" action="" onsubmit="return ajaxRequest()" id="form">
+           <div>
+           <img src="images/wb.jpg" width="300px" height="100px" />
+          </div>
+           <div>
+           <label for="type">用户类别</label> 
+		   <label><input type="radio" name="type" id="type" value="管理员">管理员</label>
+		   <label><input type="radio" name="type" id="type" value="普通用户" checked="checked">普通用户</label>
+	       </div>
+            <div>
+               <label for="username">登录名</label>
+                <input type="text" id="username" name='username' />
+            </div>
+            <div>
+                <label for="password">密码</label>
+                <input type="password" id="password" name='password' />
+                <b id="content"></b> 
+            </div>
+           	<div >
+                <label for="zddl">下次自动登录</label>
+			<input id="zddl" checked="checked" id="zddl"  name="zddl" type="checkbox" />
+                <a href="http://www.baidu.com" target="_blank" title="忘记密码？">忘记密码？</a>
+			</div>
+            <div>
+            <input type="submit" id="submit" value="登录" name="submit" />
+            </div>
+        </form>
+        <div >
+            <a href="https://www.12377.cn/" >中国互联网举报中心</a>
+        </div>
+        <div >
+            <a href="http://www.bjjubao.org.cn/index.html" >北京互联网举报中心</a>  
+        </div>
+      </div>
+    </body>
+</html>
